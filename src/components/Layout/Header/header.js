@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: #181830;
-  padding: 30px;
+  padding: 25px;
   color: white;
   font-size: 1.5rem;
 `;
@@ -28,6 +28,7 @@ const Join = styled.div`
 
   & > div {
     margin: 0 15px;
+    font-size: 1rem;
   }
 `;
 

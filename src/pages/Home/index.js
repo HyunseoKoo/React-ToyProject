@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { MockPost } from '__mocks__/post';
-import DiaryList from './components/DiaryList/DiaryList';
+import Diary from './components/DiaryList/Diary/Diary';
 
 export const Posts = MockPost(5);
 function HomePage() {
@@ -10,7 +10,7 @@ function HomePage() {
   return (
     <>
       <S.Title>공개 일기를 보여드려요</S.Title>
-      <DiaryList data1={Posts} />
+      <Diary data1={Posts} />
     </>
   );
 }
@@ -20,6 +20,7 @@ const Title = styled.div`
   text-align: center;
   color: orange;
   font-size: 20px;
+  padding: 3rem 0 4rem 0;
 `;
 
 const S = {

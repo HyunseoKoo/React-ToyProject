@@ -1,5 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import router from 'routes/routing';
+import GlobalStyles from 'style/global';
 
 function App() {
   // const Posts = MockPost(5);
@@ -8,6 +9,7 @@ function App() {
 
   return (
     <>
+      <GlobalStyles />
       <RouterProvider router={router} />
     </>
   );
