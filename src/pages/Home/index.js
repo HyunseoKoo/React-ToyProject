@@ -6,6 +6,12 @@ export const Posts = MockPost(5);
 function HomePage() {
   /*MockPost 함수의 매개변수 count로 전달한 수 만큼 데이터가 생성됩니다*/
   // console.log(Posts);
+  // console.log(typeof Posts.createdAt);
+  // let Year = Posts.createdAt.getFullYear();
+  // console.log(Year);
+  // console.log(Posts.createdAt.getMonth());
+  // console.log(Posts.createdAt.getDate());
+  // console.log(Posts.createdAt.getDay());
 
   return (
     <>

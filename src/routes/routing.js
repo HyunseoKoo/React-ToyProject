@@ -1,6 +1,6 @@
 import Layout from 'components/Layout';
 import HomePage from 'pages/Home';
-import DiaryInfo from 'pages/DairyInfo';
+import DiaryInfo from 'pages/DiaryInfo';
 import { createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: '/Info',
+        path: '/DiaryInfo',
         element: <DiaryInfo />,
       },
     ],

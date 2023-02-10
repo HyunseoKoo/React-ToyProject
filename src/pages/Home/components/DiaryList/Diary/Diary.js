@@ -1,31 +1,25 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import DiaryContents from './components/DiaryContents';
+import DiaryTitle from './components/DiaryTitle';
 
 function Diary({ data1 }) {
   const navigate = useNavigate();
 
-  const onChangePage = (params, e) => {
-    return navigate('/Info');
-  };
+  // const onChangePage = () => {
+  //   return navigate('/DiaryInfo');
+  // };
 
   // console.log(data1);
   return (
     <>
       <S.Wrapper>
         {data1.map((data) => {
-          console.log(data);
+          // console.log(data);
           return (
-            <S.Card onClick={onChangePage}>
-              <div>
-                <div>
-                  <div>{data.id}</div>
-                  {/* <div>{data.createdAt}</div> */}
-                  <div>{data.User.id}</div>
-                </div>
-                <S.BorderBox>{data.User.nick_name}</S.BorderBox>
-              </div>
-              <S.MainTitle>{data.User.nick_name}</S.MainTitle>
-              <S.MainContents>{data.content}</S.MainContents>
+            <S.Card>
+              <DiaryTitle data2={data} />
+              <DiaryContents data2={data} />
             </S.Card>
           );
         })}
@@ -49,7 +43,7 @@ const Wrapper = styled.div`
 
 const Card = styled.div`
   width: 45%;
-  height: 300px;
+  height: 350px;
   margin: 30px auto;
   padding: 2rem;
   font-size: 1.5rem;
@@ -57,38 +51,9 @@ const Card = styled.div`
   box-shadow: 0 2px 3px 2px gray;
   border-radius: 3%;
   cursor: pointer;
-
-  div:first-child > div {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  div:first-child > div:nth-child(2) {
-    flex-direction: row-reverse;
-  }
-`;
-
-const BorderBox = styled.div`
-  border-bottom: solid 3px #000;
-  padding: 1rem 0;
-`;
-
-const MainTitle = styled.div`
-  margin: 1rem 0;
-  line-height: 1.8rem;
-  font-size: 1.8rem;
-  font-weight: bold;
-`;
-const MainContents = styled.div`
-  overflow: hidden;
-  padding: 1rem 0;
-  line-height: 1.8rem;
 `;
 
 const S = {
   Wrapper,
   Card,
-  BorderBox,
-  MainTitle,
-  MainContents,
 };
