@@ -28,8 +28,8 @@ const Title = styled.div`
 `;
 
 const Img = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 40%;
 `;
 

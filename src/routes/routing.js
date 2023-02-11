@@ -13,7 +13,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: '/DiaryInfo',
+        path: '/todo/post/:key',
         element: <DiaryInfo />,
       },
     ],

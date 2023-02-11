@@ -1,11 +1,10 @@
 import { Posts } from 'pages/Home';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-function DiaryInfo(data) {
-  console.log(Posts);
-  data.map((data) => {
-    console.log(data);
-  });
+function DiaryInfo() {
+  let { key } = useParams();
+  let data = Posts.find((item) => item.indx == key);
 
   return (
     <>
