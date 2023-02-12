@@ -4,6 +4,10 @@ import Diary from './components/DiaryList/Diary/Diary';
 
 export const Posts = MockPost(5);
 
+for (let i = 0; i < Posts.length; i++) {
+  Posts[i].indx = i;
+}
+
 function HomePage() {
   /*MockPost 함수의 매개변수 count로 전달한 수 만큼 데이터가 생성됩니다*/
   // console.log(Posts);

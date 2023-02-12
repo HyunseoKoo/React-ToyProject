@@ -4,10 +4,7 @@ import DiaryContents from './components/DiaryContents';
 import DiaryTitle from './components/DiaryTitle';
 
 function Diary({ data1 }) {
-  // const onChangePage = () => {
-  //   <Link to="DiaryInfo" />;
-  // };
-
+  console.log(data1.indx);
   return (
     <S.Wrapper>
       {data1.map((data) => {

@@ -20,6 +20,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  height: 200px;
   padding: 30px;
 
   & > div {
