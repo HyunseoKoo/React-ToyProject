@@ -3,16 +3,21 @@ import styled from 'styled-components';
 import DiaryContents from './components/DiaryContents';
 import DiaryTitle from './components/DiaryTitle';
 
-function Diary({ data1 }) {
-  console.log(data1.indx);
+function Diary({ posts }) {
+  // 여기서 만들면 Posts 객체 요소에 해당 키값이 안들어지는 이유?
+  // for (let i = 0; i < posts.length; i++) {
+  //   posts[i].indx = i;
+  // }
+
+  console.log(posts);
   return (
     <S.Wrapper>
-      {data1.map((data) => {
+      {posts.map((posts) => {
         return (
-          <StyledLink to={`/todo/post/${data.indx}`}>
+          <StyledLink to={`/todo/post/${posts.indx}`}>
             <S.Card>
-              <DiaryTitle data2={data} />
-              <DiaryContents data2={data} />
+              <DiaryTitle posts={posts} />
+              <DiaryContents posts={posts} />
             </S.Card>
           </StyledLink>
         );
@@ -41,7 +46,7 @@ const Card = styled.div`
   font-size: 1.5rem;
   overflow: hidden;
   box-shadow: 0 2px 3px 2px gray;
-  border-radius: 3%;
+  border-radius: 10px;
   cursor: pointer;
 `;
 

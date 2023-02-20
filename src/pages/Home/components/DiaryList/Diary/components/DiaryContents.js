@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 
-function DiaryContents({ data2 }) {
+function DiaryContents({ posts }) {
+  console.log(posts.User);
   return (
     <>
       <S.Wrapper>
-        <S.Title>{data2.User.nick_name}</S.Title>
-        <S.Img src={data2.User.profile_img} alt="random test image" />
+        <S.Title>{posts.User.nick_name}</S.Title>
+        <S.Img src={posts.User.profile_img} alt="random test image" />
       </S.Wrapper>
-      <S.Contents>{data2.content}</S.Contents>
+      <S.Contents>{posts.content}</S.Contents>
     </>
   );
 }

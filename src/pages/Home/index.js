@@ -4,6 +4,7 @@ import Diary from './components/DiaryList/Diary/Diary';
 
 export const Posts = MockPost(5);
 
+// diary 파일에서 만들면 DairyInfo의 index에서 indx가 안찍힘. 왜지?
 for (let i = 0; i < Posts.length; i++) {
   Posts[i].indx = i;
 }
@@ -15,7 +16,7 @@ function HomePage() {
   return (
     <>
       <S.Title>공개 일기를 보여드려요</S.Title>
-      <Diary data1={Posts} />
+      <Diary posts={Posts} />
     </>
   );
 }

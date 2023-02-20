@@ -1,22 +1,22 @@
 import styled from 'styled-components';
 
-function DetailTitle({ data2 }) {
-  const Month = data2.createdAt.getMonth() + 1;
+function DetailTitle({ selectedPost }) {
+  const Month = selectedPost.createdAt.getMonth() + 1;
   //   console.log(Month); // 0 1 2 3 4 5 6 7 8 9 10 11
 
-  const DayIndex = data2.createdAt.getDay();
+  const DayIndex = selectedPost.createdAt.getDay();
   const WhatDay = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
   //   console.log(data2.createdAt.getDay()); // 0 1 2 3 4 5 6
   return (
     <>
       <S.OpenState>모두공개</S.OpenState>
-      <S.Title>{data2.User.nick_name}</S.Title>
+      <S.Title>{selectedPost.User.nick_name}</S.Title>
       <S.ResisterInfo>
-        <div>{data2.id}</div>
+        <div>{selectedPost.id}</div>
         <S.Date>
-          <div>{data2.createdAt.getFullYear()}.</div>
+          <div>{selectedPost.createdAt.getFullYear()}.</div>
           <div>{Month}.</div>
-          <div>{data2.createdAt.getDate()}.</div>
+          <div>{selectedPost.createdAt.getDate()}.</div>
           <div>{WhatDay[DayIndex]}</div>
         </S.Date>
       </S.ResisterInfo>
