@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { useState } from 'react';
 import styled from 'styled-components';
 import DetailComments from './DetailComments/detailComments';
@@ -22,6 +23,7 @@ function DetailContent({ selectedPost }) {
       User: { id: 'KOO' },
       content: newComment,
       myComment: 'Y',
+      createdAt: faker.date.between('2023-01-01T00:00:00.000Z', '2023-01-31T00:00:00.000Z'),
     };
     console.log(newObj);
     newComments.push(newObj);

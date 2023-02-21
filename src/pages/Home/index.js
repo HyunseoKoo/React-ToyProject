@@ -1,8 +1,10 @@
+import { useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import styled from 'styled-components';
 import { MockPost } from '__mocks__/post';
 import Diary from './components/DiaryList/Diary/Diary';
 
-export const Posts = MockPost(5);
+export const Posts = MockPost(100);
 
 // diary 파일에서 만들면 DairyInfo의 index에서 indx가 안찍힘. 왜지?
 for (let i = 0; i < Posts.length; i++) {
@@ -10,13 +12,25 @@ for (let i = 0; i < Posts.length; i++) {
 }
 
 function HomePage() {
-  /*MockPost 함수의 매개변수 count로 전달한 수 만큼 데이터가 생성됩니다*/
-  // console.log(Posts);
+  const [viewPosts, setViewPosts] = useState(Array.from({ length: 100 })); // 리스트 내 포스트
+
+  const fetchData = () => {
+    setTimeout(() => {
+      setViewPosts(viewPosts.concat(Array.from({ length: 50 })));
+    }, 1500);
+  };
 
   return (
     <>
       <S.Title>공개 일기를 보여드려요</S.Title>
-      <Diary posts={Posts} />
+      <InfiniteScroll
+        dataLength={viewPosts.length}
+        next={fetchData}
+        hasMore={true}
+        loader={<h4>Loading...</h4>}
+      >
+        <Diary posts={Posts} />
+      </InfiniteScroll>
     </>
   );
 }
