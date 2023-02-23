@@ -17,21 +17,23 @@ function DetailContent({ selectedPost }) {
   };
 
   const onAddCommentBtn = () => {
-    const newComments = [...Comments];
+    const newComments = [...newCommentArr];
     console.log(newComments);
     const newObj = {
       User: { id: 'KOO' },
       content: newComment,
       myComment: 'Y',
-      createdAt: faker.date.between('2023-01-01T00:00:00.000Z', '2023-01-31T00:00:00.000Z'),
+      createdAt: faker.date.between('2023-02-21T00:00:00.000Z', '2023-02-23T00:00:00.000Z'),
+      // createdAt: new Date(),
     };
     console.log(newObj);
     newComments.push(newObj);
     setNewCommentArr(newComments);
 
-    console.log('/////newComment', newComments);
+    // console.log('/////newComment', newComments);
     // [댓글추가] 버튼 클릭하면 input창 클리어되게 어떻게?
   };
+  console.log('/////newComment', newCommentArr);
 
   const onDeleteComment = (id) => {
     if (window.confirm('정말 삭제하시겠습니까?')) {

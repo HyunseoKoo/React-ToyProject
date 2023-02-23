@@ -4,6 +4,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { faker } from '@faker-js/faker';
 
+// moment.js 라이브러리 사용을 위해 createdAt을 (YYYY-MM-DD hh:mm:ss) 형식으로 바꾸기 위함
 const dateFormat = (date) => {
   let dateFormat2 =
     date.getFullYear() +
@@ -14,9 +15,7 @@ const dateFormat = (date) => {
   return dateFormat2;
 };
 
-let todayFormat = dateFormat(
-  faker.date.between('2023-01-01T00:00:00.000Z', '2023-01-31T00:00:00.000Z')
-);
+let todayFormat = dateFormat(new Date());
 
 function DetailComments({ CommentsObj, onDeleteComment }) {
   const { User, content, createdAt, id, myComment } = CommentsObj; // 주소에 담긴 indx가 포함된 post 객체를 구조분해하여 Comments 키 값을 가져옴.
@@ -25,8 +24,6 @@ function DetailComments({ CommentsObj, onDeleteComment }) {
   // console.log(createdAt); // Sun Jan 01 2023 12:24:56 GMT+0900 (한국 표준시)
   let dayIndx = createdAt.getDay();
   let dayKo = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-
-  // moment.js 라이브러리 사용을 위해 createdAt을 (YYYY-MM-DD hh:mm:ss) 형식으로 바꾸기 위함
 
   let createdAtFormat = dateFormat(new Date(createdAt));
   let postingDate = moment().format(createdAtFormat);
@@ -42,20 +39,10 @@ function DetailComments({ CommentsObj, onDeleteComment }) {
     const atDate = moment(postingDate);
     console.log('포스팅일자', postingDate);
     const dayDiff = atDate.diff(today, 'days');
-    const hourDiff = atDate.diff(today, 'hours');
+    // const hourDiff = atDate.diff(today, 'hours');
+    console.log(dayDiff);
 
-    if (dayDiff === 0) {
-      return '3시간 전';
-    } else if (dayDiff < 1 && hourDiff <= 24) {
-      const oneDay = Math.ceil(-dayDiff);
-      return oneDay + '일 전';
-    } else if (dayDiff < 2 && hourDiff <= 24) {
-      const twoDay = Math.ceil(-dayDiff);
-      return twoDay + '일 전';
-    } else if (dayDiff < 3 && hourDiff <= 24) {
-      const threeDay = Math.ceil(-dayDiff);
-      return threeDay + '일 전';
-    } else {
+    if (dayDiff < -3) {
       return (
         createdAt.getFullYear() +
         '.' +
@@ -65,6 +52,17 @@ function DetailComments({ CommentsObj, onDeleteComment }) {
         '.' +
         dayKo[dayIndx]
       );
+    } else if (-3 <= dayDiff && dayDiff < -2) {
+      const threeDay = Math.ceil(-dayDiff);
+      return threeDay + '일 전';
+    } else if (-2 <= dayDiff && dayDiff < -1) {
+      const twoDay = Math.ceil(-dayDiff);
+      return twoDay + '일 전';
+    } else if (-1 <= dayDiff && dayDiff < 0) {
+      const oneDay = Math.ceil(-dayDiff);
+      return oneDay + '일 전';
+    } else if (dayDiff === 0) {
+      return '3시간 전';
     }
   };
 
