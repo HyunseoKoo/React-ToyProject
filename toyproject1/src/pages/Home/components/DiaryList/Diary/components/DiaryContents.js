@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 function DiaryContents({ posts }) {
-  console.log(posts.User);
   return (
     <>
       <S.Wrapper>

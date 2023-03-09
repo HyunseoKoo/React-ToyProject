@@ -1,8 +1,7 @@
 import useInput from 'hooks/useInput';
 import moment from 'moment/moment';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { faker } from '@faker-js/faker';
 
 // moment.js 라이브러리 사용을 위해 createdAt을 (YYYY-MM-DD hh:mm:ss) 형식으로 바꾸기 위함
 const dateFormat = (date) => {
@@ -17,30 +16,34 @@ const dateFormat = (date) => {
 
 let todayFormat = dateFormat(new Date());
 
-function DetailComments({ CommentsObj, onDeleteComment }) {
-  const { User, content, createdAt, id, myComment } = CommentsObj; // 주소에 담긴 indx가 포함된 post 객체를 구조분해하여 Comments 키 값을 가져옴.
-  console.log(CommentsObj); // 코멘트 객체
+function DetailComments({
+  comments,
+  myCommentState,
+  editComment,
+  onEditComment,
+  startEditBtn,
+  changedComment,
+  textValue,
+  closeEditBtn,
+  onDeleteComment,
+}) {
+  const { User, content, createdAt, myComment, id } = comments;
 
   // console.log(createdAt); // Sun Jan 01 2023 12:24:56 GMT+0900 (한국 표준시)
   let dayIndx = createdAt.getDay();
   let dayKo = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
 
   let createdAtFormat = dateFormat(new Date(createdAt));
-  let postingDate = moment().format(createdAtFormat);
-  // console.log(postingDate); // 2023-1-24 댓글 작성 시간 (댓글마다 값 다름.)
+  let postingDate = moment().format(createdAtFormat); // 2023-1-24 댓글 작성 시간 (댓글마다 값 다름.)
 
   const getDayMinuteCounter = (date) => {
     if (!date) {
       return '';
     }
 
-    const today = moment(todayFormat);
-    console.log('오늘', today._i);
-    const atDate = moment(postingDate);
-    console.log('포스팅일자', postingDate);
+    const today = moment(todayFormat); //('오늘', today._i);
+    const atDate = moment(postingDate); //('포스팅일자', postingDate);
     const dayDiff = atDate.diff(today, 'days');
-    // const hourDiff = atDate.diff(today, 'hours');
-    console.log(dayDiff);
 
     if (dayDiff < -3) {
       return (
@@ -68,42 +71,6 @@ function DetailComments({ CommentsObj, onDeleteComment }) {
 
   moment().subtract(1);
 
-  const [myCommentState, setMyCommentState] = useState(false);
-
-  const useInput = (initialization) => {
-    const [value, setValue] = useState(initialization);
-    const onChange = (event) => {
-      setValue(event.target.value);
-    };
-    return [value, onChange, setValue];
-  };
-
-  const [editComment, onEditComment] = useInput(content);
-
-  const startEditBtn = () => {
-    console.log(CommentsObj.myComment);
-    setMyCommentState(true);
-    // if (CommentsObj.myComment === 'N') {
-    //   return setMyCommentState(false);
-    // } else if (CommentsObj.myComment === 'Y') {
-    //   setMyCommentState(true);
-    // }
-  };
-
-  const [changedComment, setChangedComment] = useState(content);
-
-  const handleChangeComment = (content) => {
-    const newComment = { ...CommentsObj };
-    newComment.content = content;
-    setChangedComment(newComment.content);
-  };
-
-  const closeEditBtn = () => {
-    if (editComment === content) return setMyCommentState(false);
-    handleChangeComment(editComment);
-    setMyCommentState(false);
-  };
-
   return (
     <S.Wrapper>
       <S.CommentWrapper>
@@ -115,16 +82,16 @@ function DetailComments({ CommentsObj, onDeleteComment }) {
           <S.Flex>{getDayMinuteCounter(createdAt)}</S.Flex>
         </S.FlexWrap>
 
-        {myCommentState ? (
-          <textarea onChange={onEditComment}>{content}</textarea>
+        {myComment === 'Y' && myCommentState ? (
+          <textarea ref={textValue} onChange={onEditComment} defaultValue={content}></textarea>
         ) : (
-          <div>{changedComment}</div>
+          <div>{content}</div>
         )}
       </S.CommentWrapper>
       {myComment === 'Y' && (
         <S.Button onClick={myCommentState ? closeEditBtn : startEditBtn}>수정</S.Button>
       )}
-      {myComment === 'Y' && <S.Button onClick={() => onDeleteComment(User.id)}>삭제</S.Button>}
+      {myComment === 'Y' && <S.Button onClick={() => onDeleteComment(id)}>삭제</S.Button>}
     </S.Wrapper>
   );
 }

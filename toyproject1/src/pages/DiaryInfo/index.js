@@ -1,14 +1,14 @@
-import { Posts } from 'pages/Home';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import DetailComments from './components/DetailContent/DetailComments/detailComments';
 import DetailContent from './components/DetailContent/detailContent';
 import DetailTitle from './components/DetailTitle/detailTitle';
 
 function DiaryInfo() {
+  const Posts = useSelector((state) => state.posts);
   const { key } = useParams();
-  const selectedPost = Posts.find((item) => item.indx == key);
+  console.log(key);
+  const selectedPost = Posts.find((item) => item.id === key);
 
   return (
     <>

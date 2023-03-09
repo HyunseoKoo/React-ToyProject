@@ -1,20 +1,18 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import DiaryContents from './components/DiaryContents';
 import DiaryTitle from './components/DiaryTitle';
 
-function Diary({ posts }) {
-  // 여기서 만들면 Posts 객체 요소에 해당 키값이 안들어지는 이유?
-  // for (let i = 0; i < posts.length; i++) {
-  //   posts[i].indx = i;
-  // }
+function Diary() {
+  const Posts = useSelector((state) => state.posts);
 
-  console.log(posts);
+  console.log(Posts);
   return (
     <S.Wrapper>
-      {posts.map((posts) => {
+      {Posts.map((posts) => {
         return (
-          <StyledLink to={`/todo/post/${posts.indx}`}>
+          <StyledLink to={`/todo/post/${posts.id}`}>
             <S.Card>
               <DiaryTitle posts={posts} />
               <DiaryContents posts={posts} />
