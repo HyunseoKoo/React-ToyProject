@@ -1,6 +1,6 @@
 import useInput from 'hooks/useInput';
 import moment from 'moment/moment';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 // moment.js 라이브러리 사용을 위해 createdAt을 (YYYY-MM-DD hh:mm:ss) 형식으로 바꾸기 위함
@@ -16,18 +16,8 @@ const dateFormat = (date) => {
 
 let todayFormat = dateFormat(new Date());
 
-function DetailComments({
-  comments,
-  myCommentState,
-  editComment,
-  onEditComment,
-  startEditBtn,
-  changedComment,
-  textValue,
-  closeEditBtn,
-  onDeleteComment,
-}) {
-  const { User, content, createdAt, myComment, id } = comments;
+function DetailComments({ comment, handleChangeComment, onDeleteComment }) {
+  const { User, content, createdAt, myComment, id } = comment;
 
   // console.log(createdAt); // Sun Jan 01 2023 12:24:56 GMT+0900 (한국 표준시)
   let dayIndx = createdAt.getDay();
@@ -68,8 +58,21 @@ function DetailComments({
       return '3시간 전';
     }
   };
-
   moment().subtract(1);
+  ////////////////////////////////////////
+
+  const [myCommentState, setMyCommentState] = useState(false);
+  const [editComment, onEditComment] = useInput(content);
+
+  const startEditBtn = () => {
+    setMyCommentState(true);
+  };
+
+  const closeEditBtn = () => {
+    if (editComment === content) return setMyCommentState(false);
+    handleChangeComment(editComment, id);
+    setMyCommentState(false);
+  };
 
   return (
     <S.Wrapper>
@@ -83,7 +86,7 @@ function DetailComments({
         </S.FlexWrap>
 
         {myComment === 'Y' && myCommentState ? (
-          <textarea ref={textValue} onChange={onEditComment} defaultValue={content}></textarea>
+          <textarea value={editComment} onChange={onEditComment}></textarea>
         ) : (
           <div>{content}</div>
         )}

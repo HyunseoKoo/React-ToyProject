@@ -7,7 +7,6 @@ import DetailTitle from './components/DetailTitle/detailTitle';
 function DiaryInfo() {
   const Posts = useSelector((state) => state.posts);
   const { key } = useParams();
-  console.log(key);
   const selectedPost = Posts.find((item) => item.id === key);
 
   return (

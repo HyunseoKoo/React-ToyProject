@@ -1,11 +1,10 @@
 import useInput from 'hooks/useInput';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import DetailComments from './DetailComments/detailComments';
 
 function DetailContent({ selectedPost }) {
-  console.log('selectedPosts', selectedPost);
   const { content, id, Comments } = selectedPost;
   const inputContent = useRef();
   const dispatch = useDispatch();
@@ -26,33 +25,15 @@ function DetailContent({ selectedPost }) {
   };
 
   // comment 수정
-  const [myCommentState, setMyCommentState] = useState(false);
-
-  const [editComment, onEditComment] = useInput();
-  const textValue = useRef();
-
-  const startEditBtn = () => {
-    setMyCommentState(true);
-  };
-
-  const handleChangeComment = (content) => {
+  const handleChangeComment = (commentContent, commentId) => {
     dispatch({
       type: 'EDIT_COMMENT',
       payload: {
-        id: id,
-        commentId: Comments.id,
-        content: content,
+        postId: id,
+        commentId: commentId,
+        commentContent: commentContent,
       },
     });
-    // const newComment = { ...comments };
-    // newComment.content = content;
-    // setChangedComment(newComment.content);
-  };
-
-  const closeEditBtn = () => {
-    // if (editComment === Comments.content) return setMyCommentState(false);
-    handleChangeComment(Comments.content);
-    setMyCommentState(false);
   };
 
   // comment 삭제
@@ -60,7 +41,7 @@ function DetailContent({ selectedPost }) {
     dispatch({
       type: 'DELETE_COMMENT',
       payload: {
-        id: id,
+        postId: id,
         commentId: commentId,
       },
     });
@@ -82,15 +63,10 @@ function DetailContent({ selectedPost }) {
         />
         <S.Button onClick={onAddCommentBtn}>댓글추가</S.Button>
       </S.Wrapper>
-      {Comments.map((comments) => (
+      {Comments.map((comment) => (
         <DetailComments
-          comments={comments}
-          myCommentState={myCommentState}
-          editComment={editComment}
-          onEditComment={onEditComment}
-          startEditBtn={startEditBtn}
-          textValue={textValue}
-          closeEditBtn={closeEditBtn}
+          comment={comment}
+          handleChangeComment={handleChangeComment}
           onDeleteComment={onDeleteComment}
         />
       ))}
