@@ -1,50 +1,36 @@
 import useInput from 'hooks/useInput';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { addComment, deleteComment, editComment } from 'reducer/posts';
 import styled from 'styled-components';
 import DetailComments from './DetailComments/detailComments';
 
 function DetailContent({ selectedPost }) {
   const { content, id, Comments } = selectedPost;
-  const inputContent = useRef();
+  const [newComment, setNewComment] = useInput();
   const dispatch = useDispatch();
 
   // comment 추가
-  const [newComment, setNewComment] = useInput();
-  const onInputCommentValue = (e) => {
-    setNewComment(e.target.value);
-  };
   const onAddCommentBtn = () => {
-    dispatch({
-      type: 'ADD_COMMENT',
-      payload: {
-        id: id,
-        content: inputContent.current.value,
-      },
-    }); // [댓글추가] 버튼 클릭하면 input창 클리어되게 어떻게?
+    dispatch(addComment({ id, newComment }));
   };
 
   // comment 수정
-  const handleChangeComment = (commentContent, commentId) => {
-    dispatch({
-      type: 'EDIT_COMMENT',
-      payload: {
-        postId: id,
-        commentId: commentId,
-        commentContent: commentContent,
-      },
-    });
+  const handleChangeComment = (commentId, commentContent) => {
+    dispatch(editComment({ id, commentId, commentContent }));
+    // dispatch({
+    //   type: 'EDIT_COMMENT',
+    //   payload: {
+    //     postId: id,
+    //     commentId: commentId,
+    //     commentContent: commentContent,
+    //   },
+    // });
   };
 
   // comment 삭제
   const onDeleteComment = (commentId) => {
-    dispatch({
-      type: 'DELETE_COMMENT',
-      payload: {
-        postId: id,
-        commentId: commentId,
-      },
-    });
+    dispatch(deleteComment({ id, commentId }));
   };
 
   return (
@@ -57,8 +43,9 @@ function DetailContent({ selectedPost }) {
       </S.IntroduceBox>
       <S.Wrapper>
         <S.InputBox
-          onChange={onInputCommentValue}
-          ref={inputContent}
+          onChange={setNewComment}
+          // ref={inputContent}
+          value={newComment}
           placeholder="로그인을 하면 댓글을 쓸 수 있어요."
         />
         <S.Button onClick={onAddCommentBtn}>댓글추가</S.Button>

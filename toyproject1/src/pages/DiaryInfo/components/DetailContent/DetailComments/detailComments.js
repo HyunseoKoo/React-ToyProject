@@ -59,7 +59,7 @@ function DetailComments({ comment, handleChangeComment, onDeleteComment }) {
     }
   };
   moment().subtract(1);
-  ////////////////////////////////////////
+  // dayjs 라이브러리 사용하여 정리하기
 
   const [myCommentState, setMyCommentState] = useState(false);
   const [editComment, onEditComment] = useInput(content);
@@ -70,7 +70,7 @@ function DetailComments({ comment, handleChangeComment, onDeleteComment }) {
 
   const closeEditBtn = () => {
     if (editComment === content) return setMyCommentState(false);
-    handleChangeComment(editComment, id);
+    handleChangeComment(id, editComment);
     setMyCommentState(false);
   };
 
