@@ -6,12 +6,14 @@ import { MockPost } from '__mocks__/post';
 const initialPosts = MockPost(100);
 
 export const addComment = createAction('ADD_COMMENT');
+console.log(addComment);
 export const editComment = createAction('EDIT_COMMENT');
 export const deleteComment = createAction('DELETE_COMMENT');
 
 const reducer = (state = initialPosts, action) => {
   switch (action.type) {
     case 'ADD_COMMENT':
+      console.log(addComment);
       const newAddCommentPosts = [...state];
       const selectedPost = newAddCommentPosts.find((item) => item.id === action.payload.id);
       selectedPost.Comments.push({
@@ -24,7 +26,6 @@ const reducer = (state = initialPosts, action) => {
       return newAddCommentPosts;
 
     case 'EDIT_COMMENT':
-      console.log(action.payload);
       const newEditCommentPosts = [...state];
       const selectedPost2 = newEditCommentPosts.find((item) => item.id === action.payload.id);
       const editComment = selectedPost2.Comments.find(

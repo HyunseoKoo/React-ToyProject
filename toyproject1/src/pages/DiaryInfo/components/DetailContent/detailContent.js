@@ -18,14 +18,6 @@ function DetailContent({ selectedPost }) {
   // comment 수정
   const handleChangeComment = (commentId, commentContent) => {
     dispatch(editComment({ id, commentId, commentContent }));
-    // dispatch({
-    //   type: 'EDIT_COMMENT',
-    //   payload: {
-    //     postId: id,
-    //     commentId: commentId,
-    //     commentContent: commentContent,
-    //   },
-    // });
   };
 
   // comment 삭제
