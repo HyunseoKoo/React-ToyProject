@@ -1,23 +1,29 @@
-import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../components/Layout';
-import DetailIssue from '../pages/detailpage/components/detailIssue';
-import MainPage from '../pages/mainpage';
+import Layout from 'components/Layout';
+import DetailPage from 'pages/DetailPage';
+import GoToIssue from 'pages/GoToIssue';
+import HomePage from 'pages/Home';
+
+const { createBrowserRouter } = require('react-router-dom');
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Layout />,
-    children: [
-      {
-        path: '',
-        element: <MainPage />,
-      },
-      {
-        path: '/issue/:key',
-        element: <DetailIssue />,
-      },
-    ],
-  },
+	{
+		path: '/',
+		element: <Layout />,
+		children: [
+			{
+				path: '',
+				element: <GoToIssue />,
+			},
+			{
+				path: '/issues',
+				element: <HomePage />,
+			},
+			{
+				path: '/detail/:id',
+				element: <DetailPage />,
+			},
+		],
+	},
 ]);
 
 export default router;

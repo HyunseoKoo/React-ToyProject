@@ -7,7 +7,8 @@ const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
     }
     body {
-        background-color: #e7e7e7;
+        background-color: white;
+        /* background-color: #E6DDCA; */
     }
     button {
         border: none;
