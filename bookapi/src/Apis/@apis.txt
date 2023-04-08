@@ -1,0 +1,10 @@
+open api 사이트에서 데이터를 받아오기 위해서 axios 라이브러리 사용
+
+* 설치 : npm i axios
+
+- 백엔드 주소 및 키는 절대절대절대 노출 되어선 안되기 때문에 .env 파일로 따로 관리
+- Api 관심사 분리를 위해 Apis 폴더 생성
+- 요청할 api들이 많을 것으로 url 주소 및 헤더에 실을 토큰키 값을 적용할 core.js 파일 생성. axios.create로 axios 세팅
+- api 특성별로 url 주소 분리하여 get 요청 실행 (query string을 활용할 것으로 params 정리)
+- 관심사를 분리한 api 주소도 여러개일 것이기에 BooksApi 라는 객체를 만들어 값으로 메소드 함수들을 세팅
+- 필요한 컴포넌트 파일에 가서 axios 요청

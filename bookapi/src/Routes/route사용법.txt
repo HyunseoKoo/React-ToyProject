@@ -1,0 +1,44 @@
+경로 관련 설정 라이브러리 : react-router-dom
+
+설치 : npm i react-router-dom
+
+사용법
+1. routes 폴더 생성하고 routing.js 파일 생성
+
+2. components 폴더 생성하고 index.js 파일 생성 후 아래 내용 기재
+    import { Outlet } from "react-router-dom";
+
+    function Layout() {
+        return (
+            <Outlet/>
+        )
+    }
+
+export default Layout;
+
+2. routing.js 해당파일에 아래 내용 기재
+    import {createBrowserRouter} from 'react-router-dom';
+    import Layout from '../components/index'
+
+    const router = createBrowserRouter([
+        {
+            path: '/',
+            element: <Layout />
+        }
+    ])
+
+    export default router;
+
+3. App.js 파일에 RouterProvider 덮개 씌워주기
+    import { RouterProvider } from "react-router-dom";
+    import router from "./routes/routing";
+
+    function App() {
+    return (
+        <div className="App">
+        <RouterProvider router={router}/>
+        </div>
+    );
+    }
+
+    export default App;
