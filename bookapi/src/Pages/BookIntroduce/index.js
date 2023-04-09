@@ -1,11 +1,14 @@
+import BookList from "./Components/bookList";
 
 
 function BookIntroduce() {
-    
 
     
+    
     return (
-        <div>BookIntroduce</div>
+        <>
+            <BookList />
+        </>
     )
 }
 
