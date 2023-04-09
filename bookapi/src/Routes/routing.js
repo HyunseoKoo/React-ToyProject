@@ -3,6 +3,7 @@ import Home from '../Pages/Home';
 import BookIntroduce from '../Pages/BookIntroduce';
 import Search from '../Pages/Search';
 import Layout from '../Components/Layout';
+import AddPost from '../Pages/AddPost';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/search',
                 element: <Search />
+            },
+            {
+                path: '/add',
+                element: <AddPost />
             }
         ]
     }

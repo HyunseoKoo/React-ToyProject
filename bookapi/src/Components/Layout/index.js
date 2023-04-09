@@ -10,7 +10,6 @@ function Layout() {
         <>
             <BasicHeader />
             <S.Display>
-                {/* <BasicSideBar/> */}
                 <BasicSideBarButton />
                 <Outlet/>
             </S.Display>

@@ -20,7 +20,7 @@ function BasicSideBarMain() {
     return (
         <S.Wrap>
             {<S.Button onClick={onCtrlSidebar}>{isOpen? 'X' : 'menu'}</S.Button>}
-        <BasicSideBarToggle xPosition={xPosition} setXpostion={setXpostion} setIsOpen={setIsOpen}/>
+            <BasicSideBarToggle xPosition={xPosition} setXpostion={setXpostion} setIsOpen={setIsOpen}/>
         </S.Wrap>
     )
 }

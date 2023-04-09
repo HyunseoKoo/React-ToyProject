@@ -17,9 +17,9 @@ function BasicSideBarDetail({xPosition, setXpostion, setIsOpen}) {
         <S.Container xPosition={xPosition}>
             <S.Wrap>
                 <ul>
-                <S.StyledLink to={'/introduce?menu=introduce'}><S.Li color={currentMenu === 'introduce'}>인기 도서 구경하기</S.Li></S.StyledLink>
+                    <S.StyledLink to={'/introduce?menu=introduce'}><S.Li color={currentMenu === 'introduce'}>인기 도서 구경하기</S.Li></S.StyledLink>
                     <S.StyledLink to={'/search?menu=search'}><S.Li color={currentMenu === 'search'}>희망 도서 검색하기</S.Li></S.StyledLink>
-                    <S.Li>직접 책 소개글 등록하기</S.Li>
+                    <S.StyledLink to={'/add?menu=add'}><S.Li color={currentMenu === 'add'}>직접 책 소개글 등록하기</S.Li></S.StyledLink>
                 </ul>
             </S.Wrap>
         </S.Container>
