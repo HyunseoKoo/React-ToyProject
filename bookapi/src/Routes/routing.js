@@ -1,9 +1,9 @@
 import {createBrowserRouter} from 'react-router-dom';
 import Home from '../Pages/Home';
-import BookIntroduce from '../Pages/BookIntroduce';
 import Search from '../Pages/Search';
 import Layout from '../Components/Layout';
 import AddPost from '../Pages/AddPost';
+import Introduce from '../Pages/BookIntroduce';
 
 const router = createBrowserRouter([
     {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/introduce',
-                element: <BookIntroduce />
+                element: <Introduce />
             },
             {
                 path: '/search',
