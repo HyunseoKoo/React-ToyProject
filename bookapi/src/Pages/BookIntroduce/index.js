@@ -1,33 +1,36 @@
 import { useEffect, useState } from "react";
 import { useBookList } from "../../Hooks/Queries/get-booksList";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 function Introduce() {
     const [title, setTitle] = useState('2023 제14회 젊은작가상 수상작품집');
     const { data: bookInfo } = useBookList(title);
-    const info = title && bookInfo && bookInfo.data.documents;
+    // bookInfo && console.log(bookInfo)
+    const info = bookInfo && bookInfo.data.documents[0];
 
     // 확인용
-    useEffect(() => {
-        info && console.log(info[0]);
-    },[bookInfo])
+    // useEffect(() => {
+    //     info && console.log(info);
+    // },[info])
 
-    const {authors, contents, price, publisher, thumbnail, title2, url} = bookInfo && info[0];
+    // 아래 코드 주석 풀면 에러 발생
+    // const {authors, contents, price, publisher, thumbnail, title2, url} =  info;
 
     return (
+        // <div>introduce</div>
                 <S.Container>
                     <S.Wrap>
-                    {bookInfo && info && (
+                    {info && (
                         <>
-                        <S.Img src={thumbnail}/>
+                        <S.Img src={info.thumbnail}/>
                         <S.Contain>
-                            <S.Title>{title2}</S.Title>
-                            <S.Div>작가: {authors[0]} 외</S.Div>
-                            <S.Div>가격: {price}원</S.Div>
-                            <S.Div>출판사: {publisher}</S.Div>
-                            <S.Div>{contents}</S.Div>
-                            <S.Div><Link to={url}>참고</Link></S.Div>
+                            <S.Title>{info.title2}</S.Title>
+                            <S.Div>작가: {info.authors[0]} 외</S.Div>
+                            <S.Div>가격: {info.price}원</S.Div>
+                            <S.Div>출판사: {info.publisher}</S.Div>
+                            <S.Div>{info.contents}</S.Div>
+                            <S.Div><Link to={info.url}>참고</Link></S.Div>
                         </S.Contain>
                         </>
                     )}           

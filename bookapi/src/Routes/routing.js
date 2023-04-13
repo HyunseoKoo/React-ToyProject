@@ -7,7 +7,7 @@ import Introduce from '../Pages/BookIntroduce';
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: '',
         element: <Layout />,
         children: [
             {
@@ -15,15 +15,15 @@ const router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: '/introduce',
-                element: <Introduce />
+                path: '/menu1/:menu',
+                element: <Introduce /> 
             },
             {
-                path: '/search',
+                path: '/menu2/:menu',
                 element: <Search />
             },
             {
-                path: '/add',
+                path: '/menu3/:menu',
                 element: <AddPost />
             }
         ]
