@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 function BasicSideBarDetail({xPosition, setXpostion, setIsOpen}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentMenu = searchParams.get('menu');
+
+    // useParams 사용해서 리팩터링 시도
+    // const { introduce, search, add } = useParams();
 
     useEffect(() => {
         if (currentMenu) {
@@ -18,7 +21,7 @@ function BasicSideBarDetail({xPosition, setXpostion, setIsOpen}) {
             <S.Wrap>
                 <ul>
                     <S.StyledLink to={'/introduce?menu=introduce'}><S.Li color={currentMenu === 'introduce'}>인기 도서 구경하기</S.Li></S.StyledLink>
-                    <S.StyledLink to={'/search?menu=search'}><S.Li color={currentMenu === 'search'}>희망 도서 검색하기</S.Li></S.StyledLink>
+                    <S.StyledLink to={'/search/search'}><S.Li color={currentMenu === 'search'}>희망 도서 검색하기</S.Li></S.StyledLink>
                     <S.StyledLink to={'/add?menu=add'}><S.Li color={currentMenu === 'add'}>직접 책 소개글 등록하기</S.Li></S.StyledLink>
                 </ul>
             </S.Wrap>
