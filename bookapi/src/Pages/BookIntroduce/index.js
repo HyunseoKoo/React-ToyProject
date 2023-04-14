@@ -10,9 +10,9 @@ function Introduce() {
     const info = bookInfo && bookInfo.data.documents[0];
 
     // 확인용
-    // useEffect(() => {
-    //     info && console.log(info);
-    // },[info])
+    useEffect(() => {
+        info && console.log(info);
+    },[info])
 
     // 아래 코드 주석 풀면 에러 발생
     // const {authors, contents, price, publisher, thumbnail, title2, url} =  info;
@@ -25,8 +25,8 @@ function Introduce() {
                         <>
                         <S.Img src={info.thumbnail}/>
                         <S.Contain>
-                            <S.Title>{info.title2}</S.Title>
-                            <S.Div>작가: {info.authors[0]} 외</S.Div>
+                            <S.Title>{info.title}</S.Title>
+                            <S.Div>작가: {info.authors[0]} ...</S.Div>
                             <S.Div>가격: {info.price}원</S.Div>
                             <S.Div>출판사: {info.publisher}</S.Div>
                             <S.Div>{info.contents}</S.Div>

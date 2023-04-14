@@ -1,7 +1,14 @@
 import styled from "styled-components";
 import { flexCenter } from "../../Style/common";
+import LoginForm from "./Components/Login/login";
+import SignUpForm from "./Components/SignUp/signup";
 
 function Home() {
+    let textState = 'LOGIN'
+
+    const onChangeForm = (e) => {
+        textState = e.target.innerText;
+    }
     
     return (
       <S.Container>
@@ -12,10 +19,11 @@ function Home() {
         </div>
         <S.Wrapper>
             <S.Header>
-                <S.LoginSelector>LOGIN</S.LoginSelector>
-                <S.SignUpSelector>SIGN</S.SignUpSelector>
+                <S.LoginSelector onClick={onChangeForm}>LOGIN</S.LoginSelector>
+                <S.SignUpSelector onClick={onChangeForm}>SIGN</S.SignUpSelector>
             </S.Header>
         </S.Wrapper>
+        {textState === 'LOGIN' ? <LoginForm/> : <SignUpForm/>}
       </S.Container>
     )
 }
@@ -37,7 +45,7 @@ const Header = styled.header`
     background-color: antiquewhite;
     width: 600px;
     height: 48px;
-    position: relative;
+    /* position: relative; */
     display: flex;
 
     div {
