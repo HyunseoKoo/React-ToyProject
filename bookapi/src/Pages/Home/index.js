@@ -2,13 +2,16 @@ import styled from "styled-components";
 import { flexCenter } from "../../Style/common";
 import LoginForm from "./Components/Login/login";
 import SignUpForm from "./Components/SignUp/signup";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function Home() {
-    let textState = 'LOGIN'
+    
+    const [formText, setFormText] = useState();
 
     const onChangeForm = (e) => {
-        textState = e.target.innerText;
-    }
+        setFormText(e.target.innerText);
+    };
     
     return (
       <S.Container>
@@ -22,8 +25,9 @@ function Home() {
                 <S.LoginSelector onClick={onChangeForm}>LOGIN</S.LoginSelector>
                 <S.SignUpSelector onClick={onChangeForm}>SIGN</S.SignUpSelector>
             </S.Header>
+            {formText === 'LOGIN' ? <LoginForm /> : <SignUpForm />}
         </S.Wrapper>
-        {textState === 'LOGIN' ? <LoginForm/> : <SignUpForm/>}
+        
       </S.Container>
     )
 }
@@ -39,6 +43,7 @@ const Wrapper = styled.div`
     height: 200px;
     /* padding-bottom: 60px; */
     ${flexCenter}
+    flex-direction: column; 
 `
 
 const Header = styled.header`
