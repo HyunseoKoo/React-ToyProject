@@ -1,11 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-
 import LandingPage from '../Pages/Landing';
 import ChattingPage from '../Pages/Chat';
 import FormPage from '../Pages/Form';
 import ItemDetailPage from '../Pages/ItemDetail';
-import SignUpPage from '../Pages/Form/SignUp';
-import LoginPage from '../Pages/Form/Login';
+import SignUpPage from '../Pages/Form/SignUp/SignUpPage';
+import LoginPage from '../Pages/Form/Login/LoginPage';
 import MainPage from '../Pages/Main';
 import MarketPricePage from '../Pages/MarketPrice';
 import MyPage from '../Pages/MyPage';
@@ -19,10 +18,20 @@ import ErrorPage from '../Error';
 
 const router = createBrowserRouter([
 	{
+		path: '',
+		element: <LandingPage />,
+	},
+	{
+		path: 'form/login',
+		element: <LoginPage />,
+	},
+	{
+		path: 'form/signup',
+		element: <SignUpPage />,
+	},
+	{
 		element: <LayOut />,
 		children: [
-			{ path: '/', element: <LandingPage /> },
-
 			{
 				path: 'chat',
 				element: <ChattingPage />,
@@ -30,14 +39,6 @@ const router = createBrowserRouter([
 			{
 				path: 'form',
 				element: <FormPage />,
-			},
-			{
-				path: 'form/login',
-				element: <LoginPage />,
-			},
-			{
-				path: 'form/signup',
-				element: <SignUpPage />,
 			},
 			{
 				path: 'item_detail',
