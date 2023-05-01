@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const WebHeader = () => {
 	return (
 		<S.Wrapper>
-			<S.Logo src="Assets/임시로고.png"></S.Logo>
+			<S.Logo src="Assets/web_logo.png"></S.Logo>
 			<MenuBar />
 		</S.Wrapper>
 	);
@@ -14,16 +14,23 @@ export default WebHeader;
 
 const Wrapper = styled.div`
 	width: 100%;
-	height: 100px;
+	min-width: 700px;
+	max-width: 1000px;
+	height: 200px;
 	font-family: 'Nanum_extraBold';
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	margin: 0 auto;
+	border: 1px solid blanchedalmond;
 `;
 
 const Logo = styled.img`
-	width: 150px;
+	border: 1px solid red;
+	padding-top: 50px;
+	margin-bottom: 50px;
+	width: 300px;
 `;
 
 const S = {

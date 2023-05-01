@@ -5,29 +5,40 @@ import { flexAllCenter } from 'Styles/common';
 import { useState } from 'react';
 import ChattingPage from 'Pages/Chat';
 import AnotherProduct from '../Components/AnotherProduct/anotherProduct';
+import { useNavigate } from 'react-router';
 
 const SellerDetailPage = ({ state }) => {
-	const [detailState, setDetailState] = useState(true);
+	const [detailState, setDetailState] = useState('상세정보');
+	const navigate = useNavigate();
+
+	const onClickDetailAndChatBar = e => {
+		const { innerText } = e.target;
+		setDetailState(innerText);
+		console.log(detailState);
+	};
 	return (
 		<S.Wrapper>
-			<div>판매자페이지</div>
 			<S.EditBar>
-				<select>
-					<option>판매중</option>
-					<option>판매완료</option>
-				</select>
+				<div>판매완료 변경</div>
 				<ul>
-					<li>Edit</li>
-					<li>Hide</li>
+					<li onClick={() => navigate('/register')}>Edit</li>
 					<li>Delete</li>
 				</ul>
 			</S.EditBar>
 			<DetailHead />
 			<S.DetailAndChatBar>
-				<div onClick={() => setDetailState(true)}>상세정보</div>
-				<div onClick={() => setDetailState(false)}>채팅 내역</div>
+				<S.Detail active={detailState} onClick={onClickDetailAndChatBar}>
+					상세정보
+				</S.Detail>
+				<S.Chat active={detailState} onClick={onClickDetailAndChatBar}>
+					채팅내역
+				</S.Chat>
 			</S.DetailAndChatBar>
-			{detailState ? <DetailContent state={state} /> : <ChattingPage />}
+			{detailState === '상세정보' ? (
+				<DetailContent state={state} />
+			) : (
+				<ChattingPage />
+			)}
 			<AnotherProduct />
 		</S.Wrapper>
 	);
@@ -47,20 +58,18 @@ const EditBar = styled.div`
 	font-size: ${({ theme }) => theme.fontSize.md};
 	${flexAllCenter}
 	justify-content: space-between;
-	& > select {
-		padding: 5px;
+	& > div {
+		padding: 10px;
+		margin: 20px;
+		background-color: #d9d9d9;
+		border-radius: 10px;
 	}
 	& > ul {
+		margin: 0 10px;
 		${flexAllCenter}
-		&>li {
-			margin: 0 10px;
-		}
-		& > li::after {
+		& > li:first-child::after {
 			content: '|';
-			margin-left: 10px;
-		}
-		& > li:last-child::after {
-			content: '';
+			margin: 0 10px;
 		}
 	}
 `;
@@ -69,8 +78,8 @@ const DetailAndChatBar = styled.div`
 	${flexAllCenter}
 	&>div {
 		${flexAllCenter}
-		border-top: 1px solid;
-		border-bottom: 1px solid;
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
 		padding: 20px;
 		font-size: ${({ theme }) => theme.fontSize.lg};
 		font-weight: ${({ theme }) => theme.fontWeight.bold};
@@ -78,12 +87,22 @@ const DetailAndChatBar = styled.div`
 		width: 100%;
 	}
 	& > div:first-child {
-		border-right: 1px solid;
+		border-right: 1px solid black;
 	}
+`;
+
+const Detail = styled.div`
+	color: ${({ active }) => (active === '상세정보' ? '#9EC284' : 'black')};
+`;
+
+const Chat = styled.div`
+	color: ${({ active }) => (active === '채팅내역' ? '#9EC284' : 'black')};
 `;
 
 const S = {
 	Wrapper,
 	EditBar,
 	DetailAndChatBar,
+	Detail,
+	Chat,
 };

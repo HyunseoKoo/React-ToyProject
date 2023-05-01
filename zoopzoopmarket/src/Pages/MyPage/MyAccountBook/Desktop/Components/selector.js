@@ -2,6 +2,21 @@ import styled from "styled-components";
 
 const AccountBookSelector = () => {
 
+	/*
+	1. 필터링
+	1) 전체 / 판매 / 구매
+	   => req : 카테고리 숫자(공란/0/1)
+	   => res : { 일자별 판매금액, 일자별 구매금액}
+	2) 년 & 월
+	   => req: 해당월 1일 & 해당월 마지막일
+	   => res: 당월 거래건수
+
+	2. 월별 가계부 막대그래프
+		1) 3 / 6 / 9 / 12개월별 가계부
+		=> req : 개월별 
+	*/
+
+
 	return(
 		<S.SelectorsZone>
 			<form>
