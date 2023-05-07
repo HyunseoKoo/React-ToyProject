@@ -57,7 +57,7 @@ const BottomNav = () => {
 					/>
 				</S.AddBtn>
 			</S.AddContainer>
-			<S.NavBtn to="/m-chat" id="3" ref={currentRef}>
+			<S.NavBtn to="/chat" id="3" ref={currentRef}>
 				<FontAwesomeIcon
 					icon={faCommentDots}
 					// color="white"
@@ -89,7 +89,7 @@ const Wrapper = styled.div`
 	justify-content: space-between;
 	border-top: 1px solid ${({ theme }) => theme.color.subBeigeGreen};
 	margin: 0 auto;
-	position: fixed;
+	position: sticky;
 	bottom: 0;
 	z-index: 999;
 	background-color: ${({ theme }) => theme.color.white};
@@ -132,9 +132,6 @@ const AddBtn = styled(Link)`
 	justify-content: center;
 	position: absolute;
 	top: -35px;
-	> * {
-		border: 1px solid lime;
-	}
 `;
 
 const S = {

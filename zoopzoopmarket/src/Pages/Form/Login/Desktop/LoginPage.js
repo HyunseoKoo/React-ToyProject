@@ -1,16 +1,30 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import AuthApi from 'Apis/authApi';
+import useInputs from 'Hooks/CustomHook/useInputs';
+// import { useForm } from 'react-hook-form';
 
 const LoginPage = () => {
 	const navigate = useNavigate();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm({ mode: 'onChange' });
+	const [{email, pw}, onChangeForm] = useInputs({
+		email: "",
+		pw: ""
+	});
 
-	const onSubmit = data => alert(JSON.stringify(data));
+	const onLoginForm = async (e) => {
+		e.preventDefault();
+		try {
+			const res = await AuthApi.login(email, pw);
+			console.log(res);// 확인용
+			const {data} = res;
+			localStorage.setItem('access_token', data.tokenForHeader);
+			if(localStorage.getItem('access_token')) {
+				navigate('/main')
+			}
+		} catch(err) {
+			console.error(err);
+		}
+	};
 
 	return (
 		<S.Div>
@@ -18,30 +32,12 @@ const LoginPage = () => {
 				<S.Header>
 					<S.LogoImage src="/Assets/web_logo.png" />
 				</S.Header>
-				<S.Form onSubmit={handleSubmit(onSubmit)}>
+				<S.Form onSubmit={onLoginForm}>
 					<p>로그인</p>
-					<input
-						{...register('email', {
-							required: 'email을 입력해주세요',
-							maxLength: 20,
-							pattern: {
-								value:
-									/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
-								message: 'email 형식에 맞지 않습니다',
-							},
-						})}
-						placeholder="E-mail"
-					/>
-					{errors.email && <S.Error>{errors.email.message}</S.Error>}
-					<input
-						{...register('password', {
-							required: '비밀번호를 입력해주세요',
-							maxLength: 18,
-						})}
-						placeholder="PW"
-						type="password"
-					/>
-					{errors.password && <S.Error>{errors.password.message}</S.Error>}
+					<input placeholder="E-mail" name='email' onChange={onChangeForm}/>
+					{/* {errors.email && <S.Error>{errors.email.message}</S.Error>} */}
+					<input placeholder="PW" type="password" name='pw' onChange={onChangeForm}/>
+					{/* {errors.password && <S.Error>{errors.password.message}</S.Error>} */}
 					<S.Button>로그인</S.Button>
 					<S.SignUpBtn onClick={() => navigate(`/form/signup`)}>
 						신규회원이신가요?

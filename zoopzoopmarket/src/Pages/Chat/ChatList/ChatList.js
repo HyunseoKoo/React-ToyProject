@@ -1,25 +1,26 @@
 import ChatMessage from 'Components/ChatMessage/ChatMessage';
 import styled from 'styled-components';
 
-const ChatList = () => {
+const ChatList = ({ chatList, chatroomIdx, setChatroomIdx }) => {
+	// console.log('chatList', chatList);
+
 	return (
 		<>
 			<S.LeftUpperBar>
 				<span>채팅목록</span>
 			</S.LeftUpperBar>
 			<S.ListContainer>
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
+				{chatList.map(chat => {
+					return (
+						<ChatMessage
+							onClick={() => {
+								console.log('chat--->', chat);
+								setChatroomIdx(chat.roomIdx);
+							}}
+							chat={chat}
+						/>
+					);
+				})}
 			</S.ListContainer>
 		</>
 	);
@@ -33,7 +34,9 @@ const LeftUpperBar = styled.div`
 	align-items: center;
 	height: 10%;
 	background-color: ${({ theme }) => theme.color.primary};
+	/* border: 2px solid ${({ theme }) => theme.color.primary}; */
 	color: white;
+	cursor: pointer;
 	border-radius: 5px 0 0 0;
 `;
 
