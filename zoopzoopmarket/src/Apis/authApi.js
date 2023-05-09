@@ -10,15 +10,16 @@ const AuthApi = {
     login(email, pw) {
         return Axios.post(PATH + '/login', {email, pw});
     },
-
+    
     logout() {
         return Axios.get(PATH + '/logout');
     },
-
+    
     // /api/user/check/nickname?re={nickname}
     nickNameDoubleCheck(nickname) {
+        console.log(typeof(nickname));
         return Axios.get(PATH + '/check/nickname', {
-            params: {re: nickname}
+            params: {nickname: nickname}
         })
     },
 

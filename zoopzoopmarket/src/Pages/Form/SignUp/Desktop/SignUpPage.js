@@ -17,7 +17,7 @@ const SignUpPage = () => {
 		region: "",
 	});
 	const [message, setMessage] = useState('');
-
+	console.log('//////', nickName);
 	const onSignUpSubmit = async (e) => {
 		e.preventDefault();
 		if(!email || !pw || !pwConfirm || !nickName || !phone || !region) {

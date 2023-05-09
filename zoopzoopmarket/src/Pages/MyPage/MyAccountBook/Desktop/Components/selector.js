@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const AccountBookSelector = () => {
+const AccountBookSelector = ({getInfo}) => {
 
 	return(
 		<S.SelectorsZone>
@@ -36,6 +36,7 @@ const AccountBookSelector = () => {
 						<option value="12">12 월</option>
 					</S.LargeSelect>
 				</form>
+				<button onClick={getInfo}>조회</button>
 			</S.RightSideSelectors>
 		</S.SelectorsZone>
 	) 
