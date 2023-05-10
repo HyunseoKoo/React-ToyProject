@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import FindAddress from 'Components/Address/Desktop/address';
 import UserApi from 'Apis/userApi';
 import { FORM_TYPE } from 'Consts/FormType';
-import TokenService from 'Repository/TokenService';
 
 const SignUpPage = () => {
 	const navigate = useNavigate();
@@ -14,16 +12,11 @@ const SignUpPage = () => {
 	const [idMsg, setIdMsg] = useState('');
 	const [nickMsg, setNickMsg] = useState('');
 
-	useEffect(() => {
-		if (TokenService.getToken()) {
-			alert('이미 로그인 중입니다. 메인으로 이동합니다.');
-			navigate('/main');
-		}
-	}, []);
-
 	const {
 		register,
 		handleSubmit,
+		watch,
+		setValue,
 		getValues,
 		formState: { errors },
 	} = useForm({ mode: 'onChange' });
@@ -60,7 +53,7 @@ const SignUpPage = () => {
 	// input 값에 변화가 생길때 msg 칸을 비워주는
 	useEffect(() => {
 		setIdMsg('');
-	}, [getValues('email')]);
+	}, [watch('email')]);
 
 	const onCheckNick = async e => {
 		e.preventDefault();
@@ -75,7 +68,7 @@ const SignUpPage = () => {
 
 	useEffect(() => {
 		setNickMsg();
-	}, [getValues('nick')]);
+	}, [watch('nick')]);
 
 	const full =
 		!errors.email &&
@@ -87,28 +80,7 @@ const SignUpPage = () => {
 	return (
 		<S.Div>
 			<S.Wrap>
-				<S.Header>
-					<S.LogoImage src="/Assets/web_logo.png" />
-				</S.Header>
 				<S.Form onSubmit={handleSubmit(onSubmit)}>
-					<p>회원가입</p>
-					<S.InputWrapBtn>
-						<S.ItemWrap>
-							<S.Mark>*</S.Mark>
-							<span>아이디</span>
-						</S.ItemWrap>
-						<S.InputBoxWrap>
-							<input
-								{...register('email', FORM_TYPE.EMAIL)}
-								placeholder="E-mail"
-							/>
-							<button onClick={onCheckId} disabled={errors.email || !'email'}>
-								중복확인
-							</button>
-						</S.InputBoxWrap>
-					</S.InputWrapBtn>
-					{errors.email && <S.Error>{errors.email.message}</S.Error>}
-					{<S.Error>{idMsg}</S.Error>}
 					<S.InputWrap>
 						<S.ItemWrap>
 							<S.Mark>*</S.Mark>
@@ -133,7 +105,7 @@ const SignUpPage = () => {
 								{...register('confirmPW', {
 									required: true,
 									validate: value => {
-										if (getValues('password') !== value) {
+										if (watch('password') !== value) {
 											return '비밀번호를 다시 확인해 주세요';
 										}
 									},
@@ -144,57 +116,8 @@ const SignUpPage = () => {
 						</S.InputBoxWrap>
 					</S.InputWrap>
 					{errors.confirmPW && <S.Error>{errors.confirmPW.message}</S.Error>}
-					<S.InputWrapBtn>
-						<S.ItemWrap>
-							<S.Mark>*</S.Mark>
-							<span>닉네임</span>
-						</S.ItemWrap>
-						<S.InputBoxWrap>
-							<input
-								{...register('nick', FORM_TYPE.NICKNAME)}
-								placeholder="Nick_Name"
-							/>
-							<button onClick={onCheckNick} disabled={errors.nick || !'nick'}>
-								중복확인
-							</button>
-						</S.InputBoxWrap>
-					</S.InputWrapBtn>
-					{<S.Error>{nickMsg}</S.Error>}
-					<S.InputWrap>
-						<S.ItemWrap>
-							<S.Mark>*</S.Mark>
-							<span>전화번호</span>
-						</S.ItemWrap>
-						<S.InputBoxWrap>
-							<input
-								maxLength="13"
-								{...register('phone', {
-									onChange: e => {
-										setValue(
-											'phone',
-											e.target.value
-												.replace(/[^0-9]/g, '')
-												.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`),
-										);
-									},
-								})}
-								placeholder="010-0000-0000"
-							/>
-						</S.InputBoxWrap>
-					</S.InputWrap>
-					{errors.phone && <S.Error>{errors.phone.message}</S.Error>}
-					<S.InputWrapBtn>
-						<S.ItemWrap>
-							<S.Mark>*</S.Mark>
-							<span>주소</span>
-						</S.ItemWrap>
-						<S.InputBoxWrap>
-							<S.Address>{address}</S.Address>
-							<FindAddress setter={setAddress} />
-						</S.InputBoxWrap>
-					</S.InputWrapBtn>
 					<BtnWrap>
-						<S.Button disabled={!full}>회원가입</S.Button>
+						<S.Button disabled={!full}>저장하기</S.Button>
 					</BtnWrap>
 				</S.Form>
 			</S.Wrap>

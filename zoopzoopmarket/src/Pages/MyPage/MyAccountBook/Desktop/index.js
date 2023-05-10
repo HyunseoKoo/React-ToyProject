@@ -1,8 +1,7 @@
+import { useState } from "react";
 import styled from "styled-components";
 import AccountBookSelector from "./Components/selector";
 import AccountBookDetailInfo from "./Components/detailInfo";
-import { useState } from "react";
-import MyInfoApi from "Apis/mypageApi";
 
 const AccountBookPage = () => {
 
@@ -11,6 +10,7 @@ const AccountBookPage = () => {
 	const [start, setStart] = useState('');			// 시작 날짜
 	const [end, setEnd] = useState('');				// 끝 날짜
 	
+	// category: enum("seller", "buyer") 스웨거 참고
 	// category: {
 	// 	0: "seller",
 	// 	1: "buyer",

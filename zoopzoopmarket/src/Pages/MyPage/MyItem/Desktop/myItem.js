@@ -1,9 +1,32 @@
+import MyPageApis from 'Apis/mypageApi';
 import EditBtns from 'Components/Buttons/EditBtns/editBtns';
 import { flexJustifyCenter } from 'Styles/common';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const MyItemPage = () => {
 	const item = new Array(8).fill(0);
+
+	const myItemInfo = {
+		page: 1,
+        category: 0,
+	};
+
+	// page: number
+	// category: number (0:중고 1:무료)
+
+	useEffect(() => {
+		const getMyItem = async() => {
+			try {
+				const res = await MyPageApis.getMyItem(myItemInfo);
+				console.log(res);
+			} catch(err) {
+				console.log(err);
+			};
+		}
+		getMyItem();
+	}, []);
+
 	return (
 		<S.Div>
 			<S.Wrapper>

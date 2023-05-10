@@ -1,30 +1,46 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import AuthApi from 'Apis/authApi';
-import useInputs from 'Hooks/CustomHook/useInputs';
-// import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import TokenService from 'Repository/TokenService';
+import { useEffect } from 'react';
+import UserApi from 'Apis/userApi';
+import { FORM_TYPE } from 'Consts/FormType';
 
 const LoginPage = () => {
 	const navigate = useNavigate();
-	const [{email, pw}, onChangeForm] = useInputs({
-		email: "",
-		pw: ""
-	});
 
-	const onLoginForm = async (e) => {
-		e.preventDefault();
+	useEffect(() => {
+		if (TokenService.getToken()) {
+			alert('이미 로그인 중입니다. 메인으로 이동합니다.');
+			navigate('/main');
+		}
+	}, []);
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({ mode: 'onChange' });
+
+	const onSubmit = async data => {
+		const loginInfo = {
+			email: data.email,
+			pw: data.password,
+		};
+
 		try {
-			const res = await AuthApi.login(email, pw);
-			console.log(res);// 확인용
-			const {data} = res;
-			localStorage.setItem('access_token', data.tokenForHeader);
-			if(localStorage.getItem('access_token')) {
-				navigate('/main')
-			}
-		} catch(err) {
-			console.error(err);
+			const res = await UserApi.login(loginInfo);
+			TokenService.setToken(res.data.tokenForHeader);
+			alert(`${res.data.user.nickName}님 안녕하세요.`);
+			navigate('/main');
+		} catch (err) {
+			alert(
+				`${err.response.data.message.info} 아이디와 비밀번호를 확인해주세요.`,
+			);
 		}
 	};
+
+	const full = !errors.email && !errors.password;
 
 	return (
 		<S.Div>
@@ -32,13 +48,16 @@ const LoginPage = () => {
 				<S.Header>
 					<S.LogoImage src="/Assets/web_logo.png" />
 				</S.Header>
-				<S.Form onSubmit={onLoginForm}>
+				<S.Form onSubmit={handleSubmit(onSubmit)}>
 					<p>로그인</p>
-					<input placeholder="E-mail" name='email' onChange={onChangeForm}/>
-					{/* {errors.email && <S.Error>{errors.email.message}</S.Error>} */}
-					<input placeholder="PW" type="password" name='pw' onChange={onChangeForm}/>
-					{/* {errors.password && <S.Error>{errors.password.message}</S.Error>} */}
-					<S.Button>로그인</S.Button>
+					<input {...register('email', FORM_TYPE.EMAIL)} placeholder="E-mail" />
+					{errors.email && <S.Error>{errors.email.message}</S.Error>}
+					<input
+						{...register('password', FORM_TYPE.PASSWORD_simple)}
+						placeholder="PW"
+						type="password"
+					/>
+					<S.Button disabled={!full}>로그인</S.Button>
 					<S.SignUpBtn onClick={() => navigate(`/form/signup`)}>
 						신규회원이신가요?
 					</S.SignUpBtn>
@@ -118,6 +137,9 @@ const Button = styled.button`
 	color: ${({ theme }) => theme.color.white};
 	font-size: ${({ theme }) => theme.fontSize.base};
 	font-weight: ${({ theme }) => theme.fontWeight.bold};
+	:disabled {
+		background: ${({ theme }) => theme.color.gray};
+	}
 `;
 
 const SignUpBtn = styled.span`
