@@ -4,6 +4,8 @@ import SearchBar from 'Components/SearchBar/Desktop/SearchBar';
 import TokenService from 'Repository/TokenService';
 import { useNavigate } from 'react-router-dom';
 import UserApi from 'Apis/userApi';
+import { useEffect } from 'react';
+import { Axios } from 'Apis/@core';
 
 const DesktopMainPage = () => {
 	const navigate = useNavigate();
@@ -12,6 +14,19 @@ const DesktopMainPage = () => {
 		TokenService.removeToken();
 		navigate('/');
 	};
+
+	useEffect(() => {
+		const getItem = async () => {
+			try {
+				const res = await Axios.get('/api/product');
+				// console.log(res);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
+		getItem();
+	}, []);
 
 	return (
 		<S.Wrapper>

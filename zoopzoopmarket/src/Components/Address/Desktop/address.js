@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Post from './post';
 import styled from 'styled-components';
 
-const FindAddress = ({ setter }) => {
+const FindAddress = ({ setter, region }) => {
 	/*
 	현재 주소찾기 컴포넌트는 
 	'주소찾기'버튼이 눌리면 검색 결과가 S.Box라는 태그에 적히도록 되어 있습니다. (현재는 주석처리)
@@ -22,6 +22,11 @@ const FindAddress = ({ setter }) => {
 	};
 
 	setter(address);
+
+	useEffect(() => {
+		if (region) return setAddress(region);
+	}, []);
+
 	return (
 		<div className="address_search">
 			{/* <S.Box>{address}</S.Box> */}
@@ -31,6 +36,7 @@ const FindAddress = ({ setter }) => {
 					address={address}
 					setAddress={setAddress}
 					setPopup={setPopup}
+					region={region}
 				></Post>
 			)}
 		</div>

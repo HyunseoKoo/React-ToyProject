@@ -7,7 +7,7 @@ import FindAddress from 'Components/Address/Desktop/address';
 import UserApi from 'Apis/userApi';
 import { FORM_TYPE } from 'Consts/FormType';
 
-const SignUpPage = () => {
+const MyUserEdit2 = ({ userInfo }) => {
 	const navigate = useNavigate();
 	const [address, setAddress] = useState();
 	const [idMsg, setIdMsg] = useState('');
@@ -23,20 +23,21 @@ const SignUpPage = () => {
 	} = useForm({ mode: 'onChange' });
 
 	const onSubmit = async data => {
-		const info = {
+		const infoEdit = {
 			email: data.email,
-			pw: data.password,
 			nickName: data.nick,
 			phone: data.phone,
 			region: address,
 		};
 
 		try {
-			await UserApi.signup(info);
-			alert('회원가입이 완료되었습니다.');
-			navigate('/form/login');
+			const res = await UserApi.userInfo(infoEdit);
+			console.log(res);
+			alert('회원정보가 변경되었습니다');
+			navigate('/mypage');
 		} catch (err) {
-			alert(err.response.data.message);
+			console.log(err);
+			// alert(err.response.data.message);
 		}
 	};
 
@@ -71,10 +72,13 @@ const SignUpPage = () => {
 		setNickMsg();
 	}, [watch('nick')]);
 
-	const full =
-		!errors.email &&
-		!errors.phone &&
-		address;
+	useEffect(() => {
+		setValue('email', userInfo?.email);
+		setValue('nick', userInfo?.nick_name);
+		setValue('phone', userInfo?.phone);
+	}, []);
+
+	const full = !errors.email && !errors.phone && address;
 
 	return (
 		<S.Div>
@@ -149,7 +153,7 @@ const SignUpPage = () => {
 						</S.ItemWrap>
 						<S.InputBoxWrap>
 							<S.Address>{address}</S.Address>
-							<FindAddress setter={setAddress} />
+							<FindAddress setter={setAddress} region={userInfo?.region} />
 						</S.InputBoxWrap>
 					</S.InputWrapBtn>
 					<BtnWrap>
@@ -161,7 +165,7 @@ const SignUpPage = () => {
 	);
 };
 
-export default SignUpPage;
+export default MyUserEdit2;
 
 const Div = styled.div`
 	width: 100%;

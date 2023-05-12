@@ -6,30 +6,45 @@ import MyUserEdit2 from './MyUserEdit2/myUserEdit2';
 import MyPasswordEdit from './MyPasswordEdit/myPasswordEdit';
 import UserApi from 'Apis/userApi';
 import AccountBookPage from './MyAccountBook/Desktop';
-import MyItemPage from './MyItem/Desktop/myItem';
 
 const MyPage = () => {
 	const [ToggleState, setToggleState] = useState();
 
 	const [userInfo, setUserInfo] = useState();
+	const [userProfile, setUserProfile] = useState();
 
 	useEffect(() => {
 		const getUserInfo = async () => {
-			const res = await UserApi.userInfo();
-			setUserInfo(res.data);
+			try {
+				const res = await UserApi.userInfo();
+				setUserInfo(res.data);
+				console.log(res);
+			} catch (err) {
+				console.log(err);
+			}
 		};
 
+		const getUserProfile = async () => {
+			try {
+				const res = await UserApi.myPage();
+				setUserProfile(res.data);
+				console.log(res);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
+		getUserProfile();
 		getUserInfo();
 	}, []);
 
 	return (
 		<S.Wrapper>
-			<MyProfile userInfo={userInfo} />
+			<MyProfile userInfo={userInfo} userProfile={userProfile} />
 			<ToggleBar setToggleState={setToggleState} />
 			{ToggleState === '유저 정보 수정' && <MyUserEdit2 userInfo={userInfo} />}
 			{ToggleState === '비밀번호 변경' && <MyPasswordEdit />}
 			{ToggleState === '가계부' && <AccountBookPage />}
-			{ToggleState === '내 등록템' && <MyItemPage />}
 		</S.Wrapper>
 	);
 };

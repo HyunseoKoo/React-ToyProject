@@ -4,21 +4,13 @@ import Profile from 'Components/Profile/Desktop/profile';
 import TokenService from 'Repository/TokenService';
 
 import { flexAllCenter } from 'Styles/common';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const MyProfile = ({ userInfo }) => {
+const MyProfile = ({ userInfo, userProfile }) => {
 	const navigate = useNavigate();
 	const [myProfile, setMyProfile] = useState();
-	useEffect(() => {
-		const getProfile = async () => {
-			const res = await UserApi.myPage();
-			setMyProfile(res.data);
-			console.log(res.data);
-		};
-		getProfile();
-	}, []);
 
 	const onClickLogOutBtn = async () => {
 		try {
@@ -39,11 +31,11 @@ const MyProfile = ({ userInfo }) => {
 				<div>
 					<Profile />
 				</div>
-				<div>{myProfile?.User.nickName}</div>
+				<div>{userProfile?.User.nickName}</div>
 				<S.Icon>
-					<MannerMeter ondo={myProfile?.ondo} />
+					<MannerMeter ondo={userProfile?.ondo} />
 				</S.Icon>
-				<div>내 지역</div>
+				<div>{userInfo?.region}</div>
 			</div>
 			<div>
 				<div onClick={onClickLogOutBtn}>로그아웃</div>
