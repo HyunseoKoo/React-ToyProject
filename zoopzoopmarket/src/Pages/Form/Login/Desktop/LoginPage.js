@@ -27,7 +27,6 @@ const LoginPage = () => {
 			email: data.email,
 			pw: data.password,
 		};
-
 		try {
 			const res = await UserApi.login(loginInfo);
 			TokenService.setToken(res.data.tokenForHeader);

@@ -1,10 +1,7 @@
-import ToggleBar from 'Components/Toggle/Toggle';
-import MyProfile from './Components/MyPofile/myProfile';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import MyUserEdit2 from './MyUserEdit2/myUserEdit2';
-import MyPasswordEdit from './MyPasswordEdit/myPasswordEdit';
-import UserApi from 'Apis/userApi';
+import MyProfile from './Components/MyPofile/myProfile';
+import ToggleBar from 'Components/Toggle/Toggle';
 import AccountBookPage from './MyAccountBook/Desktop';
 
 const MyPage = () => {

@@ -1,26 +1,14 @@
 import { flexAllCenter } from 'Styles/common';
 import styled from 'styled-components';
 
-const ToggleBar = ({ setToggleState }) => {
-	const onClickToggle = e => {
-		const { innerText } = e.target;
-		setToggleState(innerText);
-	};
-
-	const ToggleMenu = [
-		'내 등록템',
-		'내 관심템',
-		'가계부',
-		'내 후기',
-		'유저 정보 수정',
-		'비밀번호 변경',
-	];
-
+const ToggleBar = () => {
 	return (
 		<S.Wrapper>
-			{ToggleMenu.map(menu => (
-				<div onClick={onClickToggle}>{menu}</div>
-			))}
+			<div>내 등록템</div>
+			<div>유저 정보 수정</div>
+			<div>내 관심템</div>
+			<div>가계부</div>
+			<div>내 후기</div>
 		</S.Wrapper>
 	);
 };
@@ -32,8 +20,7 @@ const Wrapper = styled.div`
 	${flexAllCenter}
 	& > div {
 		margin: 0 30px;
-		font-size: ${({ theme }) => theme.fontSize.md};
-		font-weight: ${({ theme }) => theme.fontWeight.bold};
+		font-size: ${({ theme }) => theme.fontSize.lg};
 	}
 `;
 

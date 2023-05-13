@@ -8,9 +8,6 @@ export default axios.create({ baseURL: 'http://localhost:3004' });
 export const Axios = axios.create({
 	baseURL: process.env.REACT_APP_BACKEND_URL,
 	withCredentials: true,
-	headers: {
-		Authorization: `Bearer ${TokenService.getToken()}`,
-	},
 });
 
 Axios.interceptors.request.use(

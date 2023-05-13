@@ -1,44 +1,23 @@
-import UserApi from 'Apis/userApi';
 import MannerMeter from 'Components/Icon/Icon';
 import Profile from 'Components/Profile/Desktop/profile';
-import TokenService from 'Repository/TokenService';
-
 import { flexAllCenter } from 'Styles/common';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const MyProfile = ({ userInfo, userProfile }) => {
-	const navigate = useNavigate();
-	const [myProfile, setMyProfile] = useState();
-
-	const onClickLogOutBtn = async () => {
-		try {
-			const res = await UserApi.logout();
-			if (res.status === 200) {
-				TokenService.removeToken();
-				alert('로그아웃 되었습니다');
-				navigate('/');
-			}
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
+const MyProfile = () => {
 	return (
 		<S.Wrapper>
 			<div>
 				<div>
 					<Profile />
 				</div>
-				<div>{userProfile?.User.nickName}</div>
+				<div>닉네임</div>
 				<S.Icon>
-					<MannerMeter ondo={userProfile?.ondo} />
+					<MannerMeter />
 				</S.Icon>
-				<div>{userInfo?.region}</div>
+				<div>내 지역</div>
 			</div>
 			<div>
-				<div onClick={onClickLogOutBtn}>로그아웃</div>
+				<div>로그아웃</div>
 			</div>
 		</S.Wrapper>
 	);

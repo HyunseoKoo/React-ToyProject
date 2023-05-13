@@ -46,7 +46,7 @@ const RegisterPage = () => {
 		setPrice(formattedPrice);
 	};
 
-	const onSubmit = async data => {
+	const onSubmit = data => {
 		if (tags.length === 0) {
 			//리액트 훅폼으로 에러메세지 셋팅
 			setError(
@@ -69,11 +69,10 @@ const RegisterPage = () => {
 			});
 			// 참고 : https://pobsiz.tistory.com/12 (3번)
 			// 같은 키값에 코드를 여러번 실행시켜야함.?
-			const res = await Axios.post('/api/product', formData, {
+			Axios.post('/api/product', formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
 			});
 			alert('물품등록이 완료되었습니다.');
-			console.log(res);
 		} catch (err) {
 			return console.log(err);
 		}
