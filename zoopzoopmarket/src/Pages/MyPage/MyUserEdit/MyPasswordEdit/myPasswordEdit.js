@@ -2,160 +2,77 @@ import { flexAlignCenter, flexAllCenter } from 'Styles/common';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import FindAddress from 'Components/Address/Desktop/address';
 import UserApi from 'Apis/userApi';
 import { FORM_TYPE } from 'Consts/FormType';
 
-const MyUserEdit2 = ({ userInfo }) => {
+const MyPasswordEdit = () => {
 	const navigate = useNavigate();
-	const [address, setAddress] = useState();
-	const [idMsg, setIdMsg] = useState('');
-	const [nickMsg, setNickMsg] = useState('');
 
 	const {
 		register,
 		handleSubmit,
-		watch,
-		setValue,
-		getValues,
 		formState: { errors },
 	} = useForm({ mode: 'onChange' });
 
 	const onSubmit = async data => {
-		const infoEdit = {
-			email: data.email,
-			nickName: data.nick,
-			phone: data.phone,
-			region: address,
+		const info = {
+			pw: data.password,
 		};
 
 		try {
-			const res = await UserApi.userInfo(infoEdit);
-			console.log(res);
-			alert('회원정보가 변경되었습니다');
+			await UserApi.userPasswordEdit(info);
+			alert('비밀번호가 변경되었습니다.');
 			navigate('/mypage');
 		} catch (err) {
-			console.log(err);
 			// alert(err.response.data.message);
+			console.log(err);	// 확인용
 		}
 	};
 
-	const onCheckId = async e => {
-		e.preventDefault();
-		const value = getValues('email');
-		try {
-			const res = await UserApi.checkEmail(value);
-			setIdMsg(res.data.message);
-		} catch (err) {
-			setIdMsg(err.response.data.message);
-		}
-	};
-
-	// input 값에 변화가 생길때 msg 칸을 비워주는
-	useEffect(() => {
-		setIdMsg('');
-	}, [watch('email')]);
-
-	const onCheckNick = async e => {
-		e.preventDefault();
-		const value = getValues('nick');
-		try {
-			const res = await UserApi.checkNickname(value);
-			setNickMsg(res.data.message);
-		} catch (err) {
-			setNickMsg(err.response.data.message);
-		}
-	};
-
-	useEffect(() => {
-		setNickMsg();
-	}, [watch('nick')]);
-
-	useEffect(() => {
-		setValue('email', userInfo?.email);
-		setValue('nick', userInfo?.nick_name);
-		setValue('phone', userInfo?.phone);
-	}, []);
-
-	const full = !errors.email && !errors.phone && address;
+	const full =
+		!errors.password &&
+		!errors.confirmPW;
 
 	return (
 		<S.Div>
 			<S.Wrap>
+				<div> 90일마다 비밀번호를 변경하여 소중한 개인정보를 보호하세요!</div>
 				<S.Form onSubmit={handleSubmit(onSubmit)}>
-					<S.InputWrapBtn>
-						<S.ItemWrap>
-							<S.Mark>*</S.Mark>
-							<span>아이디</span>
-						</S.ItemWrap>
-						<S.InputBoxWrap>
-							<input
-								{...register('email', FORM_TYPE.EMAIL)}
-								placeholder="E-mail"
-							/>
-							<button
-								onClick={onCheckId}
-								disabled={errors.email || !watch('email')}
-							>
-								중복확인
-							</button>
-						</S.InputBoxWrap>
-					</S.InputWrapBtn>
-					{errors.email && <S.Error>{errors.email.message}</S.Error>}
-					{<S.Error>{idMsg}</S.Error>}
-					<S.InputWrapBtn>
-						<S.ItemWrap>
-							<S.Mark>*</S.Mark>
-							<span>닉네임</span>
-						</S.ItemWrap>
-						<S.InputBoxWrap>
-							<input
-								{...register('nick', FORM_TYPE.NICKNAME)}
-								placeholder="Nick_Name"
-							/>
-							<button
-								onClick={onCheckNick}
-								disabled={errors.nick || !watch('nick')}
-							>
-								중복확인
-							</button>
-						</S.InputBoxWrap>
-					</S.InputWrapBtn>
-					{<S.Error>{nickMsg}</S.Error>}
 					<S.InputWrap>
 						<S.ItemWrap>
 							<S.Mark>*</S.Mark>
-							<span>전화번호</span>
+							<span>비밀번호</span>
 						</S.ItemWrap>
 						<S.InputBoxWrap>
 							<input
-								maxLength="13"
-								{...register('phone', {
-									onChange: e => {
-										setValue(
-											'phone',
-											e.target.value
-												.replace(/[^0-9]/g, '')
-												.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`),
-										);
-									},
-								})}
-								placeholder="010-0000-0000"
+								{...register('password', FORM_TYPE.PASSWORD)}
+								placeholder="특수문자, 영어, 숫자 포함 8자이상"
+								type="password"
 							/>
 						</S.InputBoxWrap>
 					</S.InputWrap>
-					{errors.phone && <S.Error>{errors.phone.message}</S.Error>}
-					<S.InputWrapBtn>
+					{errors.password && <S.Error>{errors.password.message}</S.Error>}
+					<S.InputWrap>
 						<S.ItemWrap>
 							<S.Mark>*</S.Mark>
-							<span>주소</span>
+							<span>비밀번호 확인</span>
 						</S.ItemWrap>
 						<S.InputBoxWrap>
-							<S.Address>{address}</S.Address>
-							<FindAddress setter={setAddress} region={userInfo?.region} />
+							<input
+								{...register('confirmPW', {
+									required: true,
+									validate: value => {
+										if ('password' !== value) {
+											return '비밀번호가 일치하지 않습니다.';
+										}
+									},
+								})}
+								placeholder="PW check"
+								type="password"
+							/>
 						</S.InputBoxWrap>
-					</S.InputWrapBtn>
+					</S.InputWrap>
+					{errors.confirmPW && <S.Error>{errors.confirmPW.message}</S.Error>}
 					<BtnWrap>
 						<S.Button disabled={!full}>저장하기</S.Button>
 					</BtnWrap>
@@ -165,7 +82,7 @@ const MyUserEdit2 = ({ userInfo }) => {
 	);
 };
 
-export default MyUserEdit2;
+export default MyPasswordEdit;
 
 const Div = styled.div`
 	width: 100%;
@@ -176,6 +93,11 @@ const Wrap = styled.div`
 	width: 60%;
 	flex-direction: column;
 	${flexAllCenter}
+	& > div {
+		margin-bottom: 30px;
+		color: ${({theme}) => theme.color.primary};
+		font-size: ${({theme}) => theme.fontSize.sm};
+	}
 `;
 
 const Header = styled.div`
@@ -233,7 +155,7 @@ const BtnWrap = styled.div`
 
 const ItemWrap = styled.div`
 	display: flex;
-	width: 20%;
+	width: 25%;
 	& > span {
 		font-size: ${({ theme }) => theme.fontSize.base};
 		font-weight: ${({ theme }) => theme.fontWeight.bold};

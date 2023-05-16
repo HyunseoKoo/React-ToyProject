@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import FindAddress from 'Components/Address/Desktop/address';
 import UserApi from 'Apis/userApi';
 import { FORM_TYPE } from 'Consts/FormType';
 
-const SignUpPage = () => {
+const MyUserEdit = ({ userInfo }) => {
 	const navigate = useNavigate();
 	const [address, setAddress] = useState();
 	const [idMsg, setIdMsg] = useState('');
@@ -15,30 +16,29 @@ const SignUpPage = () => {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		setValue,
 		getValues,
 		formState: { errors },
 	} = useForm({ mode: 'onChange' });
-
+	
 	const onSubmit = async data => {
-		const info = {
+		const infoEdit = {
 			email: data.email,
-			pw: data.password,
 			nickName: data.nick,
 			phone: data.phone,
 			region: address,
 		};
-
+		
 		try {
-			await UserApi.signup(info);
-			alert('회원가입이 완료되었습니다.');
-			navigate('/form/login');
+			await UserApi.userInfoEdit(infoEdit);
+			alert('회원정보가 변경되었습니다');
+			navigate('/mypage');
 		} catch (err) {
-			alert(err.response.data.message);
+			alert(err.response.data.message, '비밀번호 변경을 실패하셨습니다, 다시 시도해주세요');
 		}
 	};
-
+	
+	// zoopzoop의 아이디는 이메일로, 아이디를 변경할수 없도록 해야할지 전체 논의 필요 (우선은 스웨거 상 아이디 변경 가능하도록 되어 있어 추가해놓음)
 	const onCheckId = async e => {
 		e.preventDefault();
 		const value = getValues('email');
@@ -49,12 +49,11 @@ const SignUpPage = () => {
 			setIdMsg(err.response.data.message);
 		}
 	};
-
-	// input 값에 변화가 생길때 msg 칸을 비워주는
+	
 	useEffect(() => {
 		setIdMsg('');
-	}, [watch('email')]);
-
+	}, [getValues('email')]);
+	
 	const onCheckNick = async e => {
 		e.preventDefault();
 		const value = getValues('nick');
@@ -65,77 +64,128 @@ const SignUpPage = () => {
 			setNickMsg(err.response.data.message);
 		}
 	};
-
+	
 	useEffect(() => {
 		setNickMsg();
-	}, [watch('nick')]);
-
-	const full =
-		!errors.email &&
-		!errors.password &&
-		!errors.confirmPW &&
-		!errors.phone &&
-		address;
-
+	}, [getValues('nick')]);
+	
+	useEffect(() => {
+		setValue('email', userInfo?.email);
+		setValue('nick', userInfo?.nick_name);
+		setValue('phone', userInfo?.phone);
+	}, []);
+	
+	const onClickPasswordChange = () => {
+		navigate('/mypage/user_password_edit');
+	}
+	const full = !errors.email && !errors.phone && address;
+	
 	return (
 		<S.Div>
 			<S.Wrap>
 				<S.Form onSubmit={handleSubmit(onSubmit)}>
-					<S.InputWrap>
+					<S.InputWrapBtn>
 						<S.ItemWrap>
 							<S.Mark>*</S.Mark>
-							<span>비밀번호</span>
+							<span>아이디</span>
 						</S.ItemWrap>
 						<S.InputBoxWrap>
 							<input
-								{...register('password', FORM_TYPE.PASSWORD)}
-								placeholder="특수문자, 영어, 숫자 포함 8자이상"
-								type="password"
+								{...register('email', FORM_TYPE.EMAIL)}
+								placeholder="E-mail"
 							/>
+							<button
+								onClick={onCheckId}
+								disabled={errors.email || 'email'}
+							>
+								중복확인
+							</button>
 						</S.InputBoxWrap>
-					</S.InputWrap>
-					{errors.password && <S.Error>{errors.password.message}</S.Error>}
-					<S.InputWrap>
+					</S.InputWrapBtn>
+					{errors.email && <S.Error>{errors.email.message}</S.Error>}
+					{<S.Error>{idMsg}</S.Error>}
+					<S.InputWrapBtn>
 						<S.ItemWrap>
 							<S.Mark>*</S.Mark>
-							<span>비밀번호 확인</span>
+							<span>닉네임</span>
 						</S.ItemWrap>
 						<S.InputBoxWrap>
 							<input
-								{...register('confirmPW', {
-									required: true,
-									validate: value => {
-										if (watch('password') !== value) {
-											return '비밀번호를 다시 확인해 주세요';
-										}
+								{...register('nick', FORM_TYPE.NICKNAME)}
+								placeholder="Nick_Name"
+							/>
+							<button
+								onClick={onCheckNick}
+								disabled={errors.nick || 'nick'}
+							>
+								중복확인
+							</button>
+						</S.InputBoxWrap>
+					</S.InputWrapBtn>
+					{<S.Error>{nickMsg}</S.Error>}
+					<S.InputWrap>
+						<S.ItemWrap>
+							<S.Mark>*</S.Mark>
+							<span>전화번호</span>
+						</S.ItemWrap>
+						<S.InputBoxWrap>
+							<input
+								maxLength="13"
+								{...register('phone', {
+									onChange: e => {
+										setValue(
+											'phone',
+											e.target.value
+												.replace(/[^0-9]/g, '')
+												.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`),
+										);
 									},
 								})}
-								placeholder="PW check"
-								type="password"
+								placeholder="010-0000-0000"
 							/>
 						</S.InputBoxWrap>
 					</S.InputWrap>
-					{errors.confirmPW && <S.Error>{errors.confirmPW.message}</S.Error>}
+					{errors.phone && <S.Error>{errors.phone.message}</S.Error>}
+					<S.InputWrapBtn>
+						<S.ItemWrap>
+							<S.Mark>*</S.Mark>
+							<span>주소</span>
+						</S.ItemWrap>
+						<S.InputBoxWrap>
+							<S.Address>{address}</S.Address>
+							<FindAddress setter={setAddress} region={userInfo?.region} />
+						</S.InputBoxWrap>
+					</S.InputWrapBtn>
 					<BtnWrap>
 						<S.Button disabled={!full}>저장하기</S.Button>
 					</BtnWrap>
 				</S.Form>
 			</S.Wrap>
+			<S.Wrap2>
+				<S.Text onClick={onClickPasswordChange}>비밀번호 변경하기</S.Text>
+			</S.Wrap2>
 		</S.Div>
 	);
 };
 
-export default SignUpPage;
+export default MyUserEdit;
 
 const Div = styled.div`
 	width: 100%;
-	${flexAllCenter}
+	margin: 0 auto;
 `;
 
 const Wrap = styled.div`
 	width: 60%;
 	flex-direction: column;
 	${flexAllCenter}
+	margin: 0 auto;
+`;
+
+const Wrap2 = styled.div`
+	width: 60%;
+	${flexAllCenter}
+	margin: 0 auto;
 `;
 
 const Header = styled.div`
@@ -259,9 +309,20 @@ const Address = styled.div`
 	align-items: center;
 `;
 
+const Text = styled.div`
+	margin-top: 30px;
+	font-size: ${({theme}) => theme.fontSize.base};
+	color: ${({theme}) => theme.color.primary};
+	:hover {
+		cursor: pointer;
+		line-height: 0%;
+	}
+`;
+
 const S = {
 	Div,
 	Wrap,
+	Wrap2,
 	Header,
 	LogoImage,
 	Form,
@@ -273,4 +334,5 @@ const S = {
 	InputBoxWrap,
 	Error,
 	Address,
+	Text
 };
