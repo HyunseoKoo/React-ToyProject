@@ -1,7 +1,10 @@
 import styled from "styled-components";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { useState } from "react";
 
-const AccountBookDetailInfo = () => {
-
+const AccountBookDetailInfo = ({date, setDate}) => {
+    
     return (
         <>
           <S.PreviewWrap>
@@ -25,15 +28,16 @@ const AccountBookDetailInfo = () => {
                 </S.SummaryContent2>
             </S.PreviewContent>
           </S.PreviewWrap>
-            <S.MonthButtonsZone>
+            {/* <S.MonthButtonsZone>
                 <S.MonthButton>3개월</S.MonthButton>
                 <S.MonthButton>6개월</S.MonthButton>
                 <S.MonthButton>9개월</S.MonthButton>
                 <S.MonthButton>12개월</S.MonthButton>
-            </S.MonthButtonsZone>
-          <S.GraphWrap>
-            <S.Graph>라이브러리 그래프</S.Graph>
-          </S.GraphWrap>
+            </S.MonthButtonsZone> */}
+          <div>가계부</div>
+          <Calendar value={date} onChange={setDate}></Calendar>
+          {/* <span>선택한 날짜</span>
+          {date.getDate()} */}
           <div>카드 컴포넌트</div>
         </>
     )
