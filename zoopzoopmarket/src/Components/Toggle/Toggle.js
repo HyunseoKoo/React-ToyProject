@@ -7,14 +7,14 @@ import styled from 'styled-components';
 const ToggleBar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	
+
 	const PathNameArr = location.pathname.split('/');
 	const current = PathNameArr[2];
-	
+
 	useEffect(() => {
 		navigate('/mypage/item');
 	}, []);
-	
+
 	const toggleMenu = [
 		{
 			title: '내 등록템',
@@ -34,20 +34,22 @@ const ToggleBar = () => {
 		},
 		{
 			title: '내 후기',
-			address: '',
+			address: 'review',
 		},
 	];
-	
-	const onClickToggle = (page) => {
+
+	const onClickToggle = page => {
 		navigate(`/mypage/${page}`);
 	};
-
 
 	return (
 		<S.Wrapper>
 			{toggleMenu.map(toggle => (
 				<>
-					<S.Menu onClick={() => onClickToggle(toggle.address)} currentMenu={current === toggle.address}>
+					<S.Menu
+						onClick={() => onClickToggle(toggle.address)}
+						currentMenu={current === toggle.address}
+					>
 						{toggle.title}
 					</S.Menu>
 				</>
@@ -59,22 +61,40 @@ const ToggleBar = () => {
 export default ToggleBar;
 
 const Wrapper = styled.div`
-	margin: 50px 0;
+	margin: 0 0 50px;
+	padding: 0 80px;
 	${flexAllCenter}
-	& > div {
-		margin: 0 35px;
-		font-size: ${({ theme }) => theme.fontSize.md};
-		font-weight: ${({ theme }) => theme.fontWeight.bold};
+	width: 100%;
+	height: 50px;
+	background-color: ${({theme}) => theme.color.gray[100]};
+	& > div:first-child {
+		border-left: none;
 	}
-	`;
+	@media screen and (max-width: 414px) {
+		width: 100%;
+	}
+`;
 
 const Menu = styled.div`
+	width: 200px;
+	min-width: max-content;
+	height: 50px;
+	${flexAllCenter}
+	font-size: ${({ theme }) => theme.fontSize.base};
+	font-weight: ${({ theme }) => theme.fontWeight.bolder};
+	border-left: solid 1px ${({theme}) => theme.color.gray[200]};
 	:hover {
 		cursor: pointer;
-		color: ${({theme}) => theme.color.primary};
+		background-color: ${({theme}) => theme.color.gray[200]};
 	}
-	color: ${({currentMenu}) => (currentMenu ? 'red' : 'black')};
-	`;
+	background-color: ${({ currentMenu }) => (currentMenu ? '#FFD1D1' : '#E9E9E9')};
+	border-bottom: solid 3px ${({ currentMenu }) => (currentMenu ? '#FF3647' : '#E9E9E9')};
+
+	@media screen and (max-width: 414px) {
+		width: 20px;
+		font-size: ${({ theme }) => theme.fontSize.micro};
+	}
+`;
 
 const S = {
 	Wrapper,

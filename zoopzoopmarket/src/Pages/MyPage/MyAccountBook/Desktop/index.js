@@ -29,7 +29,10 @@ const AccountBookPage = () => {
 			month={month}
 			setMonth={setMonth}
 		/>
-		<AccountBookDetailInfo/>
+		<AccountBookDetailInfo
+			year={year}
+			month={month}
+		/>
 	  </S.Wrapper>
 	) 
 };
