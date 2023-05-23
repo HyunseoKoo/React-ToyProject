@@ -9,6 +9,7 @@ const NowPlayList = () => {
 	const res = useInfiniteNowPlay();
 	const { data } = res;
 	const [ref, inView] = useInView();
+	data && console.log(data);
 
 	useEffect(() => {
 		if (!inView) {
