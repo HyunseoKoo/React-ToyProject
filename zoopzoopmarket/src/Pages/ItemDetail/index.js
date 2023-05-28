@@ -1,40 +1,44 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductApi from 'Apis/productApi';
-import { useQuery } from 'react-query';
 import BuyerDetailPage from './BuyerDetail/BuyerDetail';
 import SellerDetailPage from './SellerDetail/SellerDetail';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const ItemDetailPage = () => {
 	const { idx } = useParams();
-	let state = '';
-	// const [product, setProduct] = useState('');
-
-	// const temp = async () => {
-	// 	try {
-	// 		const res = await ProductApi.detail(idx);
-	// 		setProduct(res);
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	}
-	// };
-	const { data } = useQuery(['product', idx], () => ProductApi.detail(idx));
+	const { data } = useQuery(['product', idx], () => ProductApi.detail(idx), {
+		onError: err => {
+			console.log(err);
+		},
+	});
+  
+  const client = useQueryClient();
+	
+	const { mutate } = useMutation(() => ProductApi.addRecent(idx), {
+		onSuccess: () => {
+			client.invalidateQueries(['recent']);
+		},
+	});
 
 	useEffect(() => {
-		window.scrollTo(0, 0);
-		// temp();
+		mutate(data?.data.searchProduct.idx);
 	}, []);
 
-	const isSeller = data && data.data ? data.data.isSeller : null;
 
-	state = data ? data.isSeller : null;
+	console.log(data);
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	const isSeller = data && data.data.isSeller;
 
 	return (
 		<>
 			{!isSeller ? (
-				<BuyerDetailPage state={state} product={data} />
+				<BuyerDetailPage state={isSeller} product={data} />
 			) : (
-				<SellerDetailPage state={state} product={data} />
+				<SellerDetailPage state={isSeller} product={data} idx={idx} />
 			)}
 		</>
 	);
